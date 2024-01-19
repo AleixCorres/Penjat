@@ -1,12 +1,14 @@
 //Define constants
 let mistakes = 0
+const maxMistakes = 7
 const numberCategories = 3
-const wordsByCategories = 15
+const wordsByCategories = 8
 const numberCatCountrys = 0
 const numberCatDemonyms = 1
 const numberCatCities = 2
 let word
 let categoryName
+let lettersUsed = []
 
 var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
                 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 
@@ -28,12 +30,7 @@ const categories = [
 //Create 3 arrays, each array have 15 words from 1 category
 
 const countrys = [
-  'Iceland',
   'China',
-  'Switzerland',
-  'India',
-  'Ireland',
-  'France',
   'Germany',
   'Japan',
   'Brazil',
@@ -41,44 +38,29 @@ const countrys = [
   'Australia',
   'Italy',
   'Spain',
-  'Mexico',
   'Kenya'
 ];
 
 
 const demonyms = [
-  'Icelander',      // Iceland
   'Chinese',       // China
-  'Swiss',         // Switzerland
-  'Indian',        // India
-  'Irish',        // Ireland
-  'French',        // France
   'German',        // Germany
   'Japanese',      // Japan
-  'Brazilian',     // Brazil
   'Canadian',      // Canada
   'Australian',    // Australia
   'Italian',       // Italy
   'Spanish',       // Spain
-  'Mexican',       // Mexico
   'Kenyan'          // Kenya
 ];
 
 const cities = [
-  'Reikiavik',          // Iceland
   'Beijing',            // China
-  'Zurich',             // Switzerland
-  'New Delhi',          // India
-  'Dublin',             // Ireland
-  'Carcassonne',        // France
   'Berlin',             // Germany
   'Tokyo',              // Japan
-  'Brasilia',           // Brazil
   'Toronto',            // Canada
   'Melbourne',          // Australia
   'Florence',           // Italy
   'Barcelona',          // Spain
-  'Tijuana',        // Mexico
   'Mombasa'            // Kenya
 ];
 
@@ -123,9 +105,48 @@ document.addEventListener('DOMContentLoaded', () => {
   showCategoryHTML()
   createLettersButtons()
   clickOnLetters()
-
+  
 
 });
+
+function clickOnLetters() {
+  const letterButtons = document.querySelectorAll(".letterAvailable");
+  letterButtons.forEach((letterButton) => {
+    letterButton.addEventListener("click", function(event) {
+      const clickedLetter = event.target.getAttribute('letter');
+      
+      if (!letterIsOnUsedLetters(clickedLetter)) {
+        console.log("Has hecho clic en la letra:", clickedLetter);
+        checkletter(clickedLetter)
+        refreshWord()
+        console.log(mistakes)
+        updateMistakes()
+        deleteLetterButton(clickedLetter)
+      }else{
+
+      }
+    });
+  });
+}
+
+function letterIsOnUsedLetters(clickedLetter) {
+  let used = false
+  for (let index = 0; index < lettersUsed.length; index++) {
+  if (clickedLetter === lettersUsed[index]) {
+    used = true
+  }
+    
+  }
+  return used
+}
+
+function deleteLetterButton(clickedLetter) {
+  let classLetter = document.querySelector('[letter="'+ clickedLetter +'"]')
+  classLetter.classList.remove("letterAvailable")
+  classLetter.classList.add("letterDisable")
+    
+  }
+
 
 
 function createMask() {
@@ -163,19 +184,20 @@ function createLettersButtons() {
 
 
 
-function clickOnLetters() {
-  const letterButtons = document.querySelectorAll(".letterAvailable");
-  letterButtons.forEach((letterButton) => {
-    letterButton.addEventListener("click", function(event) {
-      const clickedLetter = event.target.getAttribute('letter');
-      console.log("Has hecho clic en la letra:", clickedLetter);
-      checkletter(clickedLetter)
-      refreshWord()
-      console.log(mistakes)
 
-    });
-  });
+
+function updateMistakes() {
+  let mistakesImage = document.getElementById("mistakesImage");
+  let imageToAppend = new Image();
+  imageToAppend.src = 'image/'+ mistakes +'.png';
+  mistakesImage.removeChild(mistakesImage.firstChild)
+  mistakesImage.appendChild(imageToAppend)
+
 }
+
+
+
+
 
 function checkletter(clickedLetter) {
   const firstLetter = 0
@@ -193,8 +215,10 @@ function checkletter(clickedLetter) {
       
   }
   if (rightLetter === false) {
+     
     mistakes++;
   }
+  lettersUsed.push(clickedLetter)
 }
 
 function refreshWord() {
