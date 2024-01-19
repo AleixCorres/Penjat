@@ -6,14 +6,14 @@ const wordsByCategories = 8
 const numberCatCountrys = 0
 const numberCatDemonyms = 1
 const numberCatCities = 2
+const separation = '_'
 let word
 let categoryName
 let lettersUsed = []
 
-var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
-                'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 
-                's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-
+const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 
+                        'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 
+                        'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 //create variable for username (save this on variable)
 
 function saveUsername() {
@@ -30,39 +30,41 @@ const categories = [
 //Create 3 arrays, each array have 15 words from 1 category
 
 const countrys = [
-  'China',
-  'Germany',
-  'Japan',
-  'Brazil',
-  'Canada',
-  'Australia',
-  'Italy',
-  'Spain',
-  'Kenya'
+  'CHINA',
+  'GERMANY',
+  'JAPAN',
+  'BRAZIL',
+  'CANADA',
+  'AUSTRALIA',
+  'ITALY',
+  'SPAIN',
+  'KENYA'
 ];
 
 
 const demonyms = [
-  'Chinese',       // China
-  'German',        // Germany
-  'Japanese',      // Japan
-  'Canadian',      // Canada
-  'Australian',    // Australia
-  'Italian',       // Italy
-  'Spanish',       // Spain
-  'Kenyan'          // Kenya
+  'CHINESE',
+  'GERMAN',
+  'JAPANESE',
+  'CANADIAN',
+  'AUSTRALIAN',
+  'ITALIAN',
+  'SPANISH',
+  'KENYAN'
 ];
 
 const cities = [
-  'Beijing',            // China
-  'Berlin',             // Germany
-  'Tokyo',              // Japan
-  'Toronto',            // Canada
-  'Melbourne',          // Australia
-  'Florence',           // Italy
-  'Barcelona',          // Spain
-  'Mombasa'            // Kenya
+  'BEIJING',
+  'BERLIN',
+  'TOKYO',
+  'TORONTO',
+  'MELBOURNE',
+  'FLORENCE',
+  'BARCELONA',
+  'MOMBASA'
 ];
+
+
 
 //Create random for categories and later for words
 
@@ -88,14 +90,9 @@ if (randomCategory === numberCatCountrys) {
   categoryName = "City"
 
 }
-word = word.toLowerCase();
-
 
 //Create wordmkask and checkerWord
 let mask = createMask()
-
-
-
 
 //Create alphabet buttons
 
@@ -106,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
   createLettersButtons()
   clickOnLetters()
   
-
 });
 
 function clickOnLetters() {
@@ -119,14 +115,32 @@ function clickOnLetters() {
         console.log("Has hecho clic en la letra:", clickedLetter);
         checkletter(clickedLetter)
         refreshWord()
-        console.log(mistakes)
         updateMistakes()
         deleteLetterButton(clickedLetter)
-      }else{
-
+        checkFinal()
       }
     });
   });
+}
+
+function checkFinal() {
+  if (condition) {
+    
+  }
+
+}
+
+function checkAllLetters() {
+  let completeWord = true
+
+  for (let index = 0; index < mask.length; index++) {
+    if (mask[index] === "_") {
+      completeWord = false
+    }
+    
+  }
+  
+  
 }
 
 function letterIsOnUsedLetters(clickedLetter) {
@@ -147,27 +161,20 @@ function deleteLetterButton(clickedLetter) {
     
   }
 
-
-
 function createMask() {
   
 numberletters = word.length
-var maskFunction = new Array(numberletters)
+let maskFunction = new Array(numberletters)
 for (let i = 0; i < word.length; i++) {
-  maskFunction[i] = "_";
-  
-}
-
+  maskFunction[i] = "_"; 
+} 
   return maskFunction
 }
-
-
 
 function showCategoryHTML() {
   const showCategory = document.querySelector("#categoryName")
   showCategory.textContent = categoryName
 }
-
 
 function createLettersButtons() {
   const alphabetBoard = document.querySelector("#alphabetBoard")
@@ -181,11 +188,6 @@ function createLettersButtons() {
 })
 }
 
-
-
-
-
-
 function updateMistakes() {
   let mistakesImage = document.getElementById("mistakesImage");
   let imageToAppend = new Image();
@@ -195,19 +197,10 @@ function updateMistakes() {
 
 }
 
-
-
-
-
 function checkletter(clickedLetter) {
-  const firstLetter = 0
   let rightLetter = false
   for (let index = 0; index < word.length; index++) {
     if (clickedLetter === word[index]) {
-      //Uppercase the first letter
-      if (index === firstLetter) {
-        clickedLetter = clickedLetter.toUpperCase()
-      }
 
       mask[index] = clickedLetter
       rightLetter = true
@@ -215,7 +208,7 @@ function checkletter(clickedLetter) {
       
   }
   if (rightLetter === false) {
-     
+
     mistakes++;
   }
   lettersUsed.push(clickedLetter)
@@ -227,7 +220,7 @@ function refreshWord() {
   divElement.innerHTML = '';
   // Recorre el array y crea elementos de lista li para cada elemento
   mask.forEach(function(element) {
-      var span = document.createElement("span");
+      let span = document.createElement("span");
       span.innerHTML = element;
       divElement.append(span)
   });
