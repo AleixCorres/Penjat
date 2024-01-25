@@ -12,8 +12,8 @@ let categoryName
 let lettersUsed = []
 
 const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 
-                        'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 
-                        'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+                  'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 
+                  'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 //create variable for username (save this on variable)
 
 function saveUsername() {
@@ -113,22 +113,33 @@ function clickOnLetters() {
       
       if (!letterIsOnUsedLetters(clickedLetter)) {
         console.log("Has hecho clic en la letra:", clickedLetter);
-        checkletter(clickedLetter)
-        refreshWord()
-        updateMistakes()
-        deleteLetterButton(clickedLetter)
-        checkFinal()
+        checkletter(clickedLetter);
+        refreshWord();
+        updateMistakes();
+        updateLettersUsedonHTML();
+        deleteLetterButton(clickedLetter);
+        checkFinal();
       }
     });
   });
 }
 
 function checkFinal() {
-  if (condition) {
-    
+  if (checkAllLetters() || mistakes === 7) {
+    if(checkAllLetters()){
+      console.log("Has ganado")
+    }else if(mistakes === 7) {
+      console.log("Has perdido")
+    }
   }
+}
+
+function updateLettersUsedonHTML() {
+  const resultSection = document.querySelector("#resultSection");
+  resultSection.appendChild();
 
 }
+
 
 function checkAllLetters() {
   let completeWord = true
@@ -140,7 +151,7 @@ function checkAllLetters() {
     
   }
   
-  
+  return completeWord
 }
 
 function letterIsOnUsedLetters(clickedLetter) {
