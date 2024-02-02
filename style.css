@@ -26,3 +26,18 @@
   cursor: pointer;
   background-color: aqua;
 }
+
+#gameSection{
+  display: none;
+  text-align: center;
+  padding-top: 200px;
+}
+
+#userSection{
+  text-align: center;
+  padding-top: 200px;
+} 
+
+#resultSection{
+  display: none;
+}

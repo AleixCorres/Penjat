@@ -10,6 +10,7 @@ const separation = '_'
 let word
 let categoryName
 let lettersUsed = []
+let final
 
 const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 
                   'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 
@@ -21,6 +22,12 @@ function saveUsername() {
   let userName = document.getElementById("userName").value;
   console.log(userName)
 
+  const userSection = document.querySelector("#userSection");
+  userSection.style.display = "none";
+
+  const gameSection = document.querySelector("#gameSection");
+  gameSection.style.display = "block";
+
 }
 
 const categories = [
@@ -29,40 +36,40 @@ const categories = [
 
 //Create 3 arrays, each array have 15 words from 1 category
 
-const countrys = [
-  'CHINA',
-  'GERMANY',
-  'JAPAN',
-  'BRAZIL',
-  'CANADA',
-  'AUSTRALIA',
-  'ITALY',
-  'SPAIN',
-  'KENYA'
-];
+const countries = [
+  ['CHINA', 'Largest country in East Asia','image/countries/china'],
+  ['GERMANY', 'European country known for its precision engineering', 'image/countries/germany'],
+  ['JAPAN', 'Island country in East Asia', 'image/countries/japan'],
+  ['BRAZIL', 'Largest country in South America', 'image/countries/brazil'],
+  ['CANADA', 'Second largest country in the world', 'image/countries/canada'],
+  ['AUSTRALIA', 'Country comprising the mainland of the Australian continent', 'image/countries/australia'],
+  ['ITALY', 'European country known for its art, architecture, and culture', 'image/countries/italy'],
+  ['SPAIN', 'European country known for its rich cultural heritage', 'image/countries/spain'],
+  ['KENYA', 'Country in East Africa known for its wildlife and scenic landscapes', 'image/countries/kenya']
+]
 
 
 const demonyms = [
-  'CHINESE',
-  'GERMAN',
-  'JAPANESE',
-  'CANADIAN',
-  'AUSTRALIAN',
-  'ITALIAN',
-  'SPANISH',
-  'KENYAN'
+  ['CHINESE', 'Of or related to China', 'image/demonyms/chinese'],
+  ['GERMAN', 'Of or related to Germany', 'image/demonyms/german'],
+  ['JAPANESE', 'Of or related to Japan', 'image/demonyms/japanese'],
+  ['CANADIAN', 'Of or related to Canada', 'image/demonyms/canadian'],
+  ['AUSTRALIAN', 'Of or related to Australia', 'image/demonyms/australian'],
+  ['ITALIAN', 'Of or related to Italy', 'image/demonyms/italian'],
+  ['SPANISH', 'Of or related to Spain', 'image/demonyms/spanish'],
+  ['KENYAN', 'Of or related to Kenya', 'image/demonyms/kenyan']
 ];
 
 const cities = [
-  'BEIJING',
-  'BERLIN',
-  'TOKYO',
-  'TORONTO',
-  'MELBOURNE',
-  'FLORENCE',
-  'BARCELONA',
-  'MOMBASA'
-];
+  ['BEIJING', 'Capital of China', 'image/cities/beijing'],
+  ['BERLIN', 'Capital of Germany', 'image/cities/berlin'],
+  ['TOKYO', 'Capital of Japan', 'image/cities/tokyo'],
+  ['TORONTO', 'City in Canada', 'image/cities/toronto'],
+  ['MELBOURNE', 'City in Australia', 'image/cities/melbourne'],
+  ['FLORENCE', 'City in Italy', 'image/cities/florence'],
+  ['BARCELONA', 'City in Spain', 'image/cities/barcelona'],
+  ['MOMBASA', 'City in Kenya', 'image/cities/mombasa']
+]
 
 
 
@@ -98,12 +105,13 @@ let mask = createMask()
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  refreshWord()
-  showCategoryHTML()
-  createLettersButtons()
-  clickOnLetters()
+  refreshWord();
+  showCategoryHTML();
+  createLettersButtons();
+  clickOnLetters();
+  checkFinal();
   
-});
+}); 
 
 function clickOnLetters() {
   const letterButtons = document.querySelectorAll(".letterAvailable");
@@ -116,27 +124,45 @@ function clickOnLetters() {
         checkletter(clickedLetter);
         refreshWord();
         updateMistakes();
-        updateLettersUsedonHTML();
+        updateLettersUsedonHTML(clickedLetter);
         deleteLetterButton(clickedLetter);
-        checkFinal();
+        final = checkFinal();
+      }
+      if (final === true) {
+     
+        const gameSection = document.querySelector("#gameSection");
+        gameSection.style.display = "none";
+      
+        const resultSection = document.querySelector("#resultSection");
+        resultSection.style.display = "block"; 
+      
       }
     });
   });
 }
 
+
+
+
 function checkFinal() {
+  let final = false
   if (checkAllLetters() || mistakes === 7) {
     if(checkAllLetters()){
-      console.log("Has ganado")
+      console.log("Has ganado");
+      final = true
     }else if(mistakes === 7) {
-      console.log("Has perdido")
+      console.log("Has perdido");
+      final = true
     }
   }
+  return final;
 }
 
-function updateLettersUsedonHTML() {
-  const resultSection = document.querySelector("#resultSection");
-  resultSection.appendChild();
+function updateLettersUsedonHTML(clickedLetter) {
+  const lettersUsed = document.querySelector("#lettersUsed");
+  const letterSpan = document.createElement("span");
+  letterSpan.textContent = clickedLetter;
+  lettersUsed.appendChild(letterSpan);
 
 }
 
@@ -209,7 +235,7 @@ function updateMistakes() {
 }
 
 function checkletter(clickedLetter) {
-  let rightLetter = false
+  let rightLetter = false 
   for (let index = 0; index < word.length; index++) {
     if (clickedLetter === word[index]) {
 
