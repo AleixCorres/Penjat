@@ -1,5 +1,8 @@
 //Define constants
 let mistakes = 0
+if (localStorage.getItem('mistakes')) {
+  mistakes = localStorage.getItem('mistakes')
+}
 const maxMistakes = 7
 const numberCategories = 3
 const wordsByCategories = 8
@@ -12,7 +15,7 @@ let wordSeleced
 let categoryName
 let lettersUsed = []
 let final
-
+let localStorageWordsCount = ''
 
 
 
@@ -109,10 +112,14 @@ updateFirstMistakes();
     word = wordSeleced[0];
   
     categoryName = "City"
-  
+    
   }
   
-
+  if (localStorage.getItem('category')) {
+    categoryName = localStorage.getItem('category');
+  }  else {
+    localStorage.setItem('category' , categoryName)
+  }
 
 
 
@@ -123,18 +130,13 @@ let mask = createMask()
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  if(localStorage.getItem('userData')) {
-    let savedUserData = JSON.parse(localStorage.getItem('userData'));
-    
-    mistakes = savedUserData.mistakes;
-}
-
   refreshWord();
   showCategoryHTML();
   createLettersButtons();
   clickOnLetters();
   checkFinal();
-  
+  deleteLetterButtonBegin()
+
 }); 
 
 function clickOnLetters() {
@@ -142,7 +144,10 @@ function clickOnLetters() {
   letterButtons.forEach((letterButton) => {
     letterButton.addEventListener("click", function(event) {
       const clickedLetter = event.target.getAttribute('letter');
-      
+
+      // localStorageWordsCount += clickedLetter
+      // localStorage.setItem('letters',  localStorageWordsCount)
+
       if (!letterIsOnUsedLetters(clickedLetter)) {
         console.log("Has hecho clic en la letra:", clickedLetter);
         checkletter(clickedLetter);
@@ -167,8 +172,8 @@ function clickOnLetters() {
 
 
         // Añade texto y clases a los elementos
-        paragraph1.textContent = "La paraula era" + wordSeleced[0];
-        paragraph2.textContent = "Has encertat la paraula";
+        paragraph1.textContent = "La paraula era " + wordSeleced[0];
+        paragraph2.textContent = "Has encertat la paraula ";
         paragraph3.textContent = wordSeleced[1];
         img.src = wordSeleced[2]; 
       
@@ -228,7 +233,6 @@ function checkAllLetters() {
     if (mask[index] === "_") {
       completeWord = false
     }
-    
   }
   
   return completeWord
@@ -249,16 +253,32 @@ function deleteLetterButton(clickedLetter) {
   let classLetter = document.querySelector('[letter="'+ clickedLetter +'"]')
   classLetter.classList.remove("letterAvailable")
   classLetter.classList.add("letterDisable")
-    
-  }
+}
 
+function deleteLetterButtonBegin() {
+  if (localStorage.getItem('letters')) {
+     let lettersSperated = localStorage.getItem('letters').split(";")
+
+    for (const iterator of lettersSperated) {
+      let classLetter = document.querySelector('[letter="'+ iterator +'"]')
+      classLetter.classList.remove("letterAvailable")
+      classLetter.classList.add('letterDisable')
+    }
+  } 
+}
 function createMask() {
-  
-numberletters = word.length
-let maskFunction = new Array(numberletters)
-for (let i = 0; i < word.length; i++) {
+  let maskFunction
+if (localStorage.getItem('mask')) {
+  let mask = localStorage.getItem('mask');
+  maskFunction = JSON.parse(mask);
+} else {
+  numberletters = word.length
+  maskFunction = new Array(numberletters)
+  for (let i = 0; i < word.length; i++) {
   maskFunction[i] = "_"; 
 } 
+}
+
   return maskFunction
 }
 
@@ -268,6 +288,7 @@ function showCategoryHTML() {
 }
 
 function createLettersButtons() {
+
   const alphabetBoard = document.querySelector("#alphabetBoard")
 
   alphabet.forEach((letter, i) =>{
@@ -276,6 +297,7 @@ function createLettersButtons() {
   letterbutton.setAttribute('letter', letter)
   letterbutton.innerHTML = letter
   alphabetBoard.append(letterbutton)
+
 })
 }
 
@@ -297,38 +319,38 @@ function checkletter(clickedLetter) {
       mask[index] = clickedLetter
       rightLetter = true
     }
+
+    localStorage.setItem('mask', JSON.stringify(mask))
       
   }
   if (rightLetter === false) {
-
+    // if (localStorage.getItem('mistakes')) {
+    //     mistakes = localStorage.getItem('mistakes')
+    // }
     mistakes++;
+
+    localStorage.setItem('mistakes',  mistakes)
   }
   lettersUsed.push(clickedLetter)
 
-
-
+  if (localStorage.getItem('letters')) {
+    localStorageWordsCount = localStorage.getItem('letters')
+  }
+  localStorageWordsCount += clickedLetter
+  localStorageWordsCount += ";"
+  localStorage.setItem('letters',  localStorageWordsCount)
 }
 
 function refreshWord() {
 
   let divElement = document.getElementById("wordMask");
-  divElement.innerHTML = '';
+  divElement.textContent= '';
   // Recorre el array y crea elementos de lista li para cada elemento
   mask.forEach(function(element) {
       let span = document.createElement("span");
-      span.innerHTML = element;
+      span.textContent = element;
       divElement.append(span)
   });
 }
 
 
-window.addEventListener('beforeunload', function (e) {
-
-  var userData = {
-    mistakes: mistakes
-
-  };
-
-
-  localStorage.setItem('userData', JSON.stringify(userData));
-});

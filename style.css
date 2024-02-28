@@ -25,6 +25,7 @@
   margin: 5px; 
   cursor: pointer;
   background-color: aqua;
+  pointer-events: none;
 }
 
 #gameSection{
