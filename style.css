@@ -1,44 +1,104 @@
-/* Create 2 styles, one for display block and another for display none */
-
-
-
-#alphabetBoard{
-    display: flex;
-    text-align: center;
-    width: 80%;
-}
-.letterAvailable {
-    border: 1px solid #000; 
-    padding: 10px; 
-    margin: 5px; 
-    cursor: pointer;
-  }
-
-
-  span {
-    margin: 10px;
+/* Estilo para el cuerpo de la página */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
 }
 
-.letterDisable {
-  border: 1px solid #000; 
-  padding: 10px; 
-  margin: 5px; 
+/* Estilo para el contenedor del juego */
+#gameSection {
+  display: none;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el contenedor de la categoría */
+#categoryName {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Estilo para la máscara de la palabra */
+#wordMask {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Estilo para el tablero del alfabeto */
+#alphabetBoard {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+/* Estilo para los botones de las letras */
+.letterAvailable, .letterDisable {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-color: #3498db;
+  color: #fff;
+  font-size: 18px;
+  text-align: center;
+  line-height: 40px;
+  margin: 5px;
   cursor: pointer;
-  background-color: aqua;
-  pointer-events: none;
+  border-radius: 4px;
 }
 
-#gameSection{
-  display: none;
-  text-align: center;
-  padding-top: 200px;
+/* Estilo para los botones de letras deshabilitados */
+.letterDisable {
+  background-color: #95a5a6;
+  cursor: default;
 }
 
-#userSection{
+/* Estilo para la imagen de los errores */
+#mistakesImage {
   text-align: center;
-  padding-top: 200px;
-} 
+  margin-bottom: 20px;
+}
 
-#resultSection{
+/* Estilo para las letras utilizadas */
+#lettersUsed {
+  margin-bottom: 20px;
+}
+
+#lettersUsed span {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+/* Estilo para el contenedor del resultado */
+#resultSection {
   display: none;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el resultado */
+#resultSection p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Estilo para la imagen del resultado */
+#resultSection img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+span {
+  margin: 5px;
 }

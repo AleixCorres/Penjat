@@ -60,26 +60,26 @@ const countries = [
 
 
 const travels = [
-  ['Airplane', 'A mode of transportation that allows for fast travel over long distances through the air.', 'image/transportation/airplane'],
-  ['Boat', 'A watercraft designed to float, move, and carry passengers or cargo over water.', 'image/transportation/boat'],
-  ['Train', 'A form of transportation that runs on tracks and is powered by electricity, diesel, or steam.', 'image/transportation/train'],
-  ['Navigation', 'The process of planning and controlling the movement of a vehicle or vessel from one place to another.', 'image/transportation/navigation'],
-  ['Reservations', 'The act of booking or reserving seats, accommodations, or services in advance.', 'image/transportation/reservations'],
-  ['Luggage', 'The bags, suitcases, and belongings that a traveler carries with them during a trip.', 'image/transportation/luggage'],
-  ['Layovers', 'A period of time spent at an intermediate point during a journey when changing vehicles or waiting for a connecting flight.', 'image/transportation/layovers'],
-  ['Transfers', 'The process of moving from one mode of transportation to another, typically during a journey involving multiple legs.', 'image/transportation/transfers']
+  ['Airplane', 'A mode of transportation that allows for fast travel over long distances through the air.', 'image/transportation/airplane.jpg'],
+  ['Boat', 'A watercraft designed to float, move, and carry passengers or cargo over water.', 'image/transportation/boat.png'],
+  ['Train', 'A form of transportation that runs on tracks and is powered by electricity, diesel, or steam.', 'image/transportation/train.png'],
+  ['Navigation', 'The process of planning and controlling the movement of a vehicle or vessel from one place to another.', 'image/transportation/navigation.png'],
+  ['Reservations', 'The act of booking or reserving seats, accommodations, or services in advance.', 'image/transportation/reservations.jpg'],
+  ['Luggage', 'The bags, suitcases, and belongings that a traveler carries with them during a trip.', 'image/transportation/luggage.jpg'],
+  ['Layovers', 'A period of time spent at an intermediate point during a journey when changing vehicles or waiting for a connecting flight.', 'image/transportation/layovers.jpg'],
+  ['Transfers', 'The process of moving from one mode of transportation to another, typically during a journey involving multiple legs.', 'image/transportation/transfers.jpg']
 ];
 
 
 const cities = [
-  ['BEIJING', 'Capital of China', 'image/cities/beijing'],
-  ['BERLIN', 'Capital of Germany', 'image/cities/berlin'],
-  ['TOKYO', 'Capital of Japan', 'image/cities/tokyo'],
-  ['TORONTO', 'City in Canada', 'image/cities/toronto'],
-  ['MELBOURNE', 'City in Australia', 'image/cities/melbourne'],
-  ['FLORENCE', 'City in Italy', 'image/cities/florence'],
-  ['BARCELONA', 'City in Spain', 'image/cities/barcelona'],
-  ['MOMBASA', 'City in Kenya', 'image/cities/mombasa']
+  ['BEIJING', 'Capital of China', 'image/cities/beijing.jpg'],
+  ['BERLIN', 'Capital of Germany', 'image/cities/berlin.jpg'],
+  ['TOKYO', 'Capital of Japan', 'image/cities/tokyo.jpg'],
+  ['TORONTO', 'City in Canada', 'image/cities/toronto.jpg'],
+  ['MELBOURNE', 'City in Australia', 'image/cities/melbourne.jpg'],
+  ['FLORENCE', 'City in Italy', 'image/cities/florence.jpg'],
+  ['BARCELONA', 'City in Spain', 'image/cities/barcelona.jpg'],
+  ['MOMBASA', 'City in Kenya', 'image/cities/mombasa.jpg']
 ]
 
 updateFirstMistakes();
@@ -172,8 +172,12 @@ function clickOnLetters() {
 
 
         // Añade texto y clases a los elementos
-        paragraph1.textContent = "La paraula era " + wordSeleced[0];
-        paragraph2.textContent = "Has encertat la paraula ";
+        paragraph1.textContent = "The word was " + wordSeleced[0];
+        if (mistakes === maxMistakes) {
+          paragraph2.textContent = "You have lost the game ";
+        } else {
+          paragraph2.textContent = "You have won the game ";
+        }
         paragraph3.textContent = wordSeleced[1];
         img.src = wordSeleced[2]; 
       
